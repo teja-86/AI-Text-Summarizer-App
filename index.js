@@ -1,8 +1,9 @@
 const express = require('express');
 const summarizeText = require('./summarize.js');
 const dotenv = require('dotenv');
+const path = require('path');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 dotenv.config();
 
@@ -10,7 +11,12 @@ dotenv.config();
 app.use(express.json());
 
 // Serves static files from the 'public' directory
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
+
+// SPA fallback to index.html for all unknown routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 app.post('/summarize', (req, res) => {
   const text = req.body.text_to_summarize;
@@ -24,6 +30,7 @@ app.post('/summarize', (req, res) => {
       console.log(error.message);
     });
 })
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
