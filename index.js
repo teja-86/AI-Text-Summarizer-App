@@ -1,7 +1,10 @@
 const express = require('express');
 const summarizeText = require('./summarize.js');
+const dotenv = require('dotenv');
 const app = express();
 const port = 3000;
+
+dotenv.config();
 
 // Parses JSON bodies (as sent by API clients)
 app.use(express.json());

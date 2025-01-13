@@ -28,12 +28,6 @@ async function summarizeText(text) {
     catch (error) {
       console.log(error);
     }
-
-
 }
 
-
-
-
 module.exports = summarizeText;
-
